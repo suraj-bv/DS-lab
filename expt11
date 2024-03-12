@@ -1,0 +1,60 @@
+#include<stdio.h>
+#include<stdlib.h>
+int a[10][10],n,s[10]={0};
+void bfs(int u){
+	int f,r,q[10],v,i,s[10]={0};
+	printf("The nodes visited from %d:",u);
+	f=0,r=-1;
+	q[++r]=u;
+	s[u]=1;
+	printf("%d\n",u);
+	while(f<=r){
+		u=q[f++];
+		for(v=0;v<n;v++)
+			if(a[u][v]==1)
+			{
+				printf("%d\n",v);
+				s[v]=1;
+				q[++r]=v;
+			}
+	}
+	printf("\n");
+}
+void dfs(int u){
+	int v;
+	s[u]=1;
+	printf("%d\n",u);
+	for(v=0;v<n;v++)
+		if(a[u][v]==1&&s[v]==0)
+			dfs(v);
+}
+int main(){
+	int u,i,j,ch;
+	while(1){
+		printf("1.create a graph\n2.Traversal using BFS\n3.Traverse using DFS\n4.Exit\n");
+		printf("Enter your choice:");
+		scanf("%d",&ch);
+		switch(ch){
+			case 1:printf("Enter the number of nodes:");
+			       scanf("%d",&n);
+			       for(i=0;i<n;i++)
+				       for(j=0;j<n;j++){
+					       printf("Enter A[%d][%d]=",i,j);
+					       scanf("%d",&a[i][j]);
+				       }
+			       break;
+			case 2:printf("Enter the starting/source vertex:");
+			       scanf("%d",&u);
+			       bfs(u);
+			       break;
+			case 3:printf("Enter the starting/source vertex:");
+			       scanf("%d",&u);
+			       for(i=0;i<10;i++)
+				       s[i]=0;
+			       printf("The nodes visited from %d:",u);
+			       dfs(u);
+			       break;
+			case 4:exit(0);
+		}
+	}
+}
