@@ -1,0 +1,127 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+ int info;
+ struct node *llink;
+ struct node *rlink;
+ };
+ typedef struct node *NODE;
+ void inorder(NODE root)
+ {
+  if(root==NULL)
+  return;
+  inorder(root->llink);
+  printf("%d",root->info);
+  inorder(root->rlink);
+  }
+  void preorder(NODE root)
+  {
+   if(root==NULL)
+   return;
+   printf("%d",root->info);
+   preorder(root->llink);
+   preorder(root->rlink);
+   }
+   void postorder(NODE root)
+   {
+   if(root==NULL)
+   return;
+   postorder(root->llink);
+   postorder(root->rlink);
+   printf("%d",root->info);
+   }
+   NODE insert(NODE root,int item)
+   {
+    NODE cur,prev,temp;
+    temp=(NODE)malloc(sizeof(struct node));
+    temp->info=item;
+    temp->llink=temp->rlink=NULL;
+    if(root==NULL)
+    {
+    return temp;
+    }
+    cur=root;
+    while(cur!=NULL)
+    {
+    prev=cur;
+    if(cur->info==item)
+    {
+    printf("Element already exist\n");
+    free(temp);
+    return root;
+    }
+    if(cur->info<item)
+    cur=cur->rlink;
+    else
+    cur=cur->llink;
+    }
+    if(prev->info<item)
+    prev->rlink=temp;
+    else
+    prev->llink=temp;
+    return root;
+    }
+    void search(NODE root,int key)
+    {
+    NODE cur;
+    if(root==NULL)
+    {
+    printf("tree is empty\n");
+    return;
+    }
+    cur=root;
+    while(cur!=NULL)
+    {
+    if(cur->info==key)
+    {
+    printf("key element found\n");
+    return;
+    }
+    if(cur->info<key)
+    cur=cur->rlink;
+    else
+    cur=cur->llink;
+    }
+    printf("key not found\n");
+    }
+    void main()
+    {
+    int ch,item,key;
+    NODE root;
+    root=NULL;
+    while(1)
+    {
+    printf("1.insert to bst\n2.inorder traversal\n3.preorder traversal\n4.post order traversal\n5.search bst\n6.exit\n");
+    printf("Enter your choice\n");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+    case 1: int x;
+            do
+            {
+             printf("Enter the item to be inserted\n");
+             scanf("%d",&item);
+             root=insert(root,item);
+             printf("Enter 1 to continue 0 to exit\n");
+             scanf("%d",&x);
+             }
+             while(x!=0);
+             break;
+    case 2: inorder(root);
+            break;
+    case 3: preorder(root);
+            break;
+    case 4: postorder(root);
+            break;
+    case 5: printf("Enter the key element to be searched\n");
+            scanf("%d",&key);
+            search(root,key);
+            break;
+    case 6:_Exit(0);
+            break;
+    default: printf("Enter the valid choice\n");
+             break;
+             }
+             }
+             }
