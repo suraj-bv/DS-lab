@@ -1,0 +1,173 @@
+#include<stdio.h>
+#include<stdlib.h>
+int count;
+struct node
+{
+ int ssn;
+ char name[15];
+ char dept[10];
+ char designation[10];
+ int sal;
+ char phono[12];
+ struct node *rlink;
+ struct node *llink;
+ };
+ typedef struct node *NODE;
+ NODE createlist(NODE Head);
+ NODE insertfront(NODE Head);
+ NODE insertrear(NODE Head);
+ NODE deletefront(NODE Head);
+ NODE deleterear(NODE Head);
+ NODE DEqueue(NODE Head);
+ void display(NODE Head);
+ NODE insertrear(NODE Head)
+ {
+  NODE temp,cur;
+  temp=(NODE)malloc(sizeof(struct node));
+  printf("enter the employee details\n");
+  printf("Enter the ssn,name,department,designation,salary,phonenumber");
+  scanf("%d%s%s%s%d%s",&temp->ssn,temp->name,temp->dept,temp->designation,&temp->sal,temp->phono);
+  cur=Head->llink;
+  cur->rlink=temp;
+  temp->rlink=Head;
+  temp->llink=cur;
+  Head->llink=temp;
+  count++;
+  return Head;
+  }
+  void display(NODE Head)
+  {
+   NODE cur;
+   if(Head->rlink==Head)
+   {
+   printf("list is empty\n");
+   return;
+   }
+   cur=Head->rlink;
+   printf("Employee details\n");
+   printf("ssn\tname\tdepartment\tdesignation\tsalary\tphoneno\n");
+   while(cur!=Head)
+   {
+   printf("%d\t%s\t%s\t%s\t%d\t%s\n",cur->ssn,cur->name,cur->dept,cur->designation,cur->sal,cur->phono);
+   cur=cur->rlink;
+   }
+   printf("the total number of employees is %d",count);
+   }
+   NODE deleterear(NODE Head)
+   {
+   NODE cur,prev;
+   if(Head->rlink==Head)
+   {
+   printf("list is empty\n");
+   return Head;
+   }
+   cur=Head->llink;
+   prev=cur->llink;
+   printf("deleted employee details is \n");
+   printf("%d\t%s\t%s\t%s\t%d\t%s\n",cur->ssn,cur->name,cur->dept,cur->designation,cur->sal,cur->phono);
+   Head->llink=prev;
+   prev->rlink=Head;
+   free(cur);
+   count--;
+   return Head;
+   }
+   NODE insertfront(NODE Head)
+   {
+   NODE cur,temp;
+   temp=(NODE)malloc(sizeof(struct node));
+   printf("\nEnter the employee details");
+   printf("ssn,name,department,designation,salary,phonenumber");
+   scanf("%d%s%s%s%d%s",&temp->ssn,temp->name,temp->dept,temp->designation,&temp->sal,temp->phono);
+   cur=Head->rlink;
+   cur->llink=temp;
+   Head->rlink=temp;
+   temp->rlink=cur;
+   temp->llink=Head;
+   count++;
+   return Head;
+   }
+   NODE deletefront(NODE Head)
+   {
+   NODE next,cur;
+   if(Head->rlink==Head)
+   {
+    printf("list is empty\n");
+    return Head;
+    }
+    cur=Head->rlink;
+    next=cur->rlink;
+    printf("deleted employee details is");
+    printf("%d\t%s\t%s\t%s\t%d\t%s",cur->ssn,cur->name,cur->dept,cur->designation,cur->sal,cur->phono);
+    Head->rlink=next;
+    next->llink=Head;
+    count--;
+    return Head;
+    }
+    NODE DEqueue(NODE Head)
+    {
+    int ch;
+    while(1)
+    {
+     printf("DE operation\n");
+     printf("1.insertfront\n2.deleterear\n3.insertrear\n4.deletefront\n5.Exit\n");
+     printf("enter your choice\n");
+     scanf("%d",&ch);
+     switch(ch)
+     {
+     case 1:Head=insertfront(Head);
+            break;
+     case 2:Head=deleterear(Head);
+            break;
+      
+     case 3:Head=insertrear(Head);
+            break;
+      
+     case 4:Head=deletefront(Head);
+            break;
+     case 5:return Head;
+     }
+     }
+     }
+     void main()
+     {
+     int ch,i;
+     NODE Head;
+     Head=(NODE)malloc(sizeof(struct node));  
+     Head->rlink=Head;
+     Head->llink=Head;
+     while(1)
+     {
+     printf("dll main menu");
+     printf("1.createalist\n2.display\n3.insertrear\n4.deleterear\n5.insertfront\n6.deletefront\n7.demonstrateDequeue\n8.Exit\n");
+     printf("\nEnter your choice");
+     scanf("%d",&ch);
+     switch(ch)
+     {
+      case 1:printf("enter number of employee list to be created\n");
+             scanf("%d",&count);
+             for(i=0;i<count;i++)
+             {
+             Head=insertrear(Head);
+             count--;
+             }
+             break;
+      case 2:display(Head);
+             break;
+      case 3:Head=insertrear(Head);
+             break;
+      case 4:Head=deleterear(Head);
+             break;
+      case 5:Head=insertfront(Head);
+             break;
+      case 6:Head=deletefront(Head);
+             break;
+      case 7:Head=DEqueue(Head);
+             break;
+      case 8:_Exit(0);
+             break;
+      default:printf("Enter the valid choice\n");
+              break;
+      }
+      }
+      }
+      
