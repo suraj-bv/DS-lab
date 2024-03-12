@@ -1,0 +1,42 @@
+#include<stdio.h>
+#include<string.h>
+void main()
+{
+char str[100],pat[50],rep[50],ans[100];
+int i=0,j=0,c=0,m=0,k=0,flag=0;
+printf("Enter the main string:\n");
+gets(str);
+printf("Enter the pattren string:\n");
+gets(pat);
+printf("Enter the replace string:\n");
+gets(rep);
+while(str[c]!='\0')
+{
+if(str[m]==pat[i])
+{
+i++;m++;
+flag=1;
+if(pat[i]=='\0') 
+{
+for(k=0;rep[k]!='\0';k++,j++)
+ans[j]=rep[k];
+i=0;c=m;
+}
+}
+else
+{
+ans[j]=str[c];
+j++;c++;
+m=c;i=0;
+}
+}
+if(flag==0)
+{
+printf("Pattern doesn't found");
+}
+else
+{
+ans[j]='\0';
+printf("The resultant string is\n%s",ans);
+}
+}
