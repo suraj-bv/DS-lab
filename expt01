@@ -1,1 +1,69 @@
-asd
+#include<stdio.h>
+#include<stdlib.h>
+struct day
+{
+char *dayname;
+int date;
+int month;
+int year;
+char *activitydescription;
+};
+struct day *createcalender(int size)
+{
+struct day *calender=(struct day *)malloc(size*sizeof(struct day));
+if (calender==NULL)
+{
+printf("memory allocation failed:");
+exit(1);
+}
+return calender;
+}
+void readdata(struct day *calender, int size)
+{
+int i;
+for(i=0;i<size;i++)
+{
+printf("enter details of the day %d\n",i+1);
+printf("day name:");
+calender[i].dayname=(char*)malloc(20*sizeof(char));
+scanf("%s",calender[i].dayname);
+printf("date:"); 
+scanf("%d",&calender[i].date);
+printf("month:");
+scanf("%d",&calender[i].month);
+printf("year:");
+scanf("%d",&calender[i].year);
+printf("Activity description:");
+calender[i].activitydescription=(char*)malloc(50*sizeof(char));
+scanf("%s",calender[i].activitydescription);
+}
+}
+void displaycalender(struct day *calender, int size)
+{
+int i;
+printf("day name \t date \t activity description\n");
+for(i=0;i<size;i++)
+{
+printf("%s \t %d/%d/%d \t %s\n",calender[i].dayname,calender[i].date,calender[i].month,calender[i].year,calender[i].activitydescription);
+}
+}
+void freememory(struct day *calender,int size)
+{
+int i;
+for(i=0;i<size;i++)
+{
+free(calender[i].dayname);
+free(calender[i].activitydescription);
+}
+free(calender);
+}
+int main()
+{
+int size;
+printf("Enter the no. of days in calender:");
+scanf("%d",&size);
+struct day *calender=createcalender(size);
+readdata(calender,size);
+displaycalender(calender,size);
+freememory(calender,size);
+}
