@@ -1,0 +1,82 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define max 10
+int count=0;
+struct employee{
+	int id;
+	char name[15];
+};
+typedef struct employee EMP;
+EMP emp[max];
+int a[max];
+int create(int num){
+	int key;
+	key=num%10;
+	return key;
+}
+int getemp(EMP emp[],int key){
+	printf("Enter employee id:");
+	scanf("%d",&emp[key].id);
+	printf("Enter employee name:");
+	scanf("%s",emp[key].name);
+	return key;
+}
+void display(){
+	int i,ch;
+	printf("\n1.Display all.\n2.Filtered display.\n");
+	printf("Enter your choice:");
+	scanf("%d",&ch);
+	if(ch==1){
+		printf("The hash table is:\n");
+		printf("\nHT key\tEmp ID\tEmp Name\n");
+		for(i=0;i<max;i++)
+			printf("\n%d\t%d\t%s",i,emp[i].id,emp[i].name);
+	}
+	else{
+		printf("The hash table is:\n");
+                printf("\nHT key\tEmp ID\tEmp Name\n");
+		for(i=0;i<max;i++)
+			if(a[i]!=-1)
+				printf("\n%d\t%d\t%s",i,emp[i].id,emp[i].name);
+	}
+}
+void linearprob(int key){
+	int i;
+	if(count==max){
+		printf("Hash table is full");
+		return;
+	}
+	if(a[key]==-1){
+		a[key]=getemp(emp,key);
+		count++;
+	}else{
+		printf("\nCollision detected !!!!\n");
+		i=(key+1)%max;
+		printf("%d\n",i);
+		while(i<max||i<key){
+			if(a[i]==-1){
+				a[i]=getemp(emp,i);
+				count++;
+				break;
+			}
+			else{
+				i=(i+1)%max;
+			}
+		}
+	}
+}
+void main(){
+	int num,key,i,x;
+	printf("Collision handling by linear probing:\n");
+	for(i=0;i<max;i++)
+		a[i]=-1;
+	do{
+		printf("Enter the data:");
+		scanf("%d",&num);
+		key=create(num);
+		linearprob(key);
+		display(emp);
+		printf("\nDo you wnat to continue or exit(0/1):");
+		scanf("%d",&x);
+	}while(x!=0);
+}
