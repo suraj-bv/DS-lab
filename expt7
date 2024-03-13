@@ -1,0 +1,193 @@
+#include <stdlib.h>
+#include <string.h>
+
+int count = 0, n = 0;
+
+struct studentnode {
+    char name[15];
+    char usn[15];
+    char programme[10];
+    int sem;
+    char phoneno[15];
+    struct studentnode *next;
+};
+
+typedef struct studentnode *NODE;
+
+NODE createlist(NODE first);
+NODE insertfront(NODE first);
+NODE insertrear(NODE first);
+NODE deletefront(NODE first);
+NODE deleterear(NODE first);
+NODE stacksimulation(NODE first);
+void display(NODE first);
+NODE getnode();
+
+NODE createlist(NODE first) {
+    int i;
+    printf("enter the number of student information to store in linkedlist\n");
+    scanf("%d", &n);
+    for (i = 0; i < n; i++) {
+        first = insertfront(first);
+    }
+    return first;
+}
+
+NODE insertfront(NODE first) {
+    NODE newnode;
+    newnode = getnode();
+    if (newnode == NULL)
+        printf("no memory available\n");
+    else
+        newnode->next = first;
+    count++;
+    return newnode;
+}
+
+NODE getnode() {
+    int i;
+    NODE newnode;
+    newnode = (NODE)malloc(sizeof(struct studentnode));
+    if (newnode == NULL)
+        return NULL;
+    printf("enter the student information\n");
+    printf("name:");
+    scanf("%s", newnode->name);
+    printf("usn:");
+    scanf("%s", newnode->usn);
+    printf("programme:");
+    scanf("%s", newnode->programme);
+    printf("sem:");
+    scanf("%d", &newnode->sem);
+    printf("phoneno:");
+    scanf("%s", newnode->phoneno);
+    newnode->next = NULL;
+    return newnode;
+}
+
+NODE insertrear(NODE first) {
+    NODE newnode, cur = first;
+    newnode = getnode();
+    if (newnode == NULL)
+        return newnode;
+    while (cur->next != NULL)
+        cur = cur->next;
+    cur->next = newnode;
+    count++;
+    return first;
+}
+
+NODE deletefront(NODE first) {
+    if (first == NULL)
+        printf("list is empty\n");
+    else {
+        NODE temp = first;
+        printf("the deleted student information is %s,%s,%s,%d,%s", first->name, first->usn, first->programme, first->sem, first->phoneno);
+        first = first->next;
+        free(temp);
+        n--;
+        count--;
+    }
+    return first;
+}
+
+NODE deleterear(NODE first) {
+    NODE cur, prev;
+    cur = first;
+    if (first == NULL) {
+        printf("list is empty\n");
+        return NULL;
+    }
+    if (first->next == NULL) {
+        printf("the deleted student information is %s,%s,%s,%d,%s", first->name, first->usn, first->programme, first->sem, first->phoneno);
+        first = NULL;
+        free(first);
+    } else {
+        while (cur->next != NULL) {
+            prev = cur;
+            cur = cur->next;
+        }
+        prev->next = NULL;
+        printf("the deleted student information is %s,%s,%s,%d,%s", cur->name, cur->usn, cur->programme, cur->sem, cur->phoneno);
+        free(cur);
+        n--;
+        count--;
+    }
+    return first;
+}
+
+NODE stacksimulation(NODE first) {
+    int ch;
+    while (1) {
+        printf("\n1.push(insert at front)\n2.pop(delete at front)\n3.display\n4.exit\n");
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1:
+                first = insertfront(first);
+                break;
+            case 2:
+                first = deletefront(first);
+                break;
+            case 3:
+                display(first);
+                break;
+            case 4:
+                return first;
+        }
+    }
+}
+
+void display(NODE first) {
+    NODE cur;
+    if (first == NULL) {
+        printf("list is empty\n");
+    } else {
+        cur = first;
+        printf("\n student name\tUSN\tprogramme\tsem\tphoneno\n");
+
+        while (cur != NULL) {
+            printf("\n%s\t%s\t%s\t%d\t%s\n", cur->name, cur->usn, cur->programme, cur->sem, cur->phoneno);
+            cur = cur->next;
+        }
+        printf("number of nodes is %d\n", count);
+    }
+}
+int main() {
+    int ch;
+    NODE first = NULL;
+    while (1) {
+        printf("1.create list\n2.insert front\n3.insert rear\n4.delete front\n5.delete rear\n6.stack simulation\n7.display\n8.exit\n");
+        printf("enter your choice:");
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1:
+                first = createlist(first);
+                break;
+            case 2:
+                first = insertfront(first);
+                break;
+            case 3:
+                first = insertrear(first);
+                break;
+            case 4:
+                first = deletefront(first);
+                break;
+            case 5:
+                first = deleterear(first);
+                break;
+            case 6:
+                first = stacksimulation(first);
+                break;
+            case 7:
+                display(first);
+                break;
+            case 8:
+                _Exit(0);
+                break;
+            default:
+                printf("enter a valid choice\n");
+                break;
+        }
+    }
+    return 0;
+}
